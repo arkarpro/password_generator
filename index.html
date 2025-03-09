@@ -12,40 +12,36 @@
             align-items: center;
             height: 100vh;
             background-color: #f4f4f4;
-            margin: 0;
         }
         .container {
             background: white;
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-            max-width: 400px;
-            width: 90%;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             text-align: center;
+            max-width: 400px;
+            width: 100%;
         }
         h2 {
-            margin-bottom: 15px;
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
         }
-        input {
+        input, button {
             width: 100%;
             padding: 10px;
             margin: 5px 0;
-            border: 1px solid #ccc;
+            border: 1px solid #007bff;
             border-radius: 5px;
         }
         button {
-            width: 100%;
-            padding: 12px;
-            background: #007BFF;
+            background-color: #007bff;
             color: white;
-            border: none;
-            border-radius: 5px;
             cursor: pointer;
-            font-size: 16px;
-            margin-top: 10px;
         }
         button:hover {
-            background: #0056b3;
+            background-color: #0056b3;
         }
     </style>
 </head>
@@ -62,29 +58,37 @@
         <input type="number" id="symbols" value="2">
         <button onclick="generatePassword()">Generate Password</button>
         <input type="text" id="password" readonly>
+        <button onclick="copyPassword()">Copy Password</button>
     </div>
-
     <script>
         function generatePassword() {
-            const capitals = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-            const smalls = "abcdefghijklmnopqrstuvwxyz";
-            const nums = "0123456789";
-            const symbols = "!@#$%^&*()";
-
-            let capitalCount = document.getElementById("capital").value;
-            let smallCount = document.getElementById("small").value;
-            let numCount = document.getElementById("numbers").value;
-            let symbolCount = document.getElementById("symbols").value;
-
-            let password = "";
-
-            for (let i = 0; i < capitalCount; i++) password += capitals[Math.floor(Math.random() * capitals.length)];
-            for (let i = 0; i < smallCount; i++) password += smalls[Math.floor(Math.random() * smalls.length)];
-            for (let i = 0; i < numCount; i++) password += nums[Math.floor(Math.random() * nums.length)];
-            for (let i = 0; i < symbolCount; i++) password += symbols[Math.floor(Math.random() * symbols.length)];
-
-            password = password.split('').sort(() => Math.random() - 0.5).join('');
-            document.getElementById("password").value = password;
+            const capital = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            const small = "abcdefghijklmnopqrstuvwxyz";
+            const numbers = "0123456789";
+            const symbols = "!@#$%^&*()_+";
+            
+            let pass = "";
+            pass += getRandomChars(capital, document.getElementById('capital').value);
+            pass += getRandomChars(small, document.getElementById('small').value);
+            pass += getRandomChars(numbers, document.getElementById('numbers').value);
+            pass += getRandomChars(symbols, document.getElementById('symbols').value);
+            
+            document.getElementById("password").value = pass.split('').sort(() => Math.random() - 0.5).join('');
+        }
+        
+        function getRandomChars(source, length) {
+            let result = "";
+            for (let i = 0; i < length; i++) {
+                result += source.charAt(Math.floor(Math.random() * source.length));
+            }
+            return result;
+        }
+        
+        function copyPassword() {
+            const passwordField = document.getElementById("password");
+            passwordField.select();
+            document.execCommand("copy");
+            alert("Password copied to clipboard!");
         }
     </script>
 </body>
