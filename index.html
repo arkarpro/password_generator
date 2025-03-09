@@ -7,84 +7,85 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+            margin: 0;
         }
         .container {
-            max-width: 400px;
-            margin: auto;
+            background: white;
             padding: 20px;
-            border: 1px solid #ddd;
             border-radius: 10px;
-            box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
         }
-        input, button {
+        h2 {
+            margin-bottom: 15px;
+        }
+        input {
             width: 100%;
             padding: 10px;
             margin: 5px 0;
-            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
         }
         button {
-            background-color: #007bff;
+            width: 100%;
+            padding: 12px;
+            background: #007BFF;
             color: white;
             border: none;
+            border-radius: 5px;
             cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
         }
         button:hover {
-            background-color: #0056b3;
+            background: #0056b3;
         }
     </style>
 </head>
 <body>
-
     <div class="container">
         <h2>Password Generator</h2>
         <label>Capital Letters:</label>
-        <input type="number" id="capLetters" min="0" max="20" value="2">
-        
+        <input type="number" id="capital" value="2">
         <label>Small Letters:</label>
-        <input type="number" id="smallLetters" min="0" max="20" value="4">
-        
+        <input type="number" id="small" value="4">
         <label>Numbers:</label>
-        <input type="number" id="numbers" min="0" max="20" value="2">
-        
+        <input type="number" id="numbers" value="2">
         <label>Symbols:</label>
-        <input type="number" id="symbols" min="0" max="20" value="2">
-        
+        <input type="number" id="symbols" value="2">
         <button onclick="generatePassword()">Generate Password</button>
         <input type="text" id="password" readonly>
     </div>
 
     <script>
         function generatePassword() {
-            let capLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-            let smallLetters = "abcdefghijklmnopqrstuvwxyz";
-            let numbers = "0123456789";
-            let symbols = "!@#$%^&*-+";
+            const capitals = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            const smalls = "abcdefghijklmnopqrstuvwxyz";
+            const nums = "0123456789";
+            const symbols = "!@#$%^&*()";
 
-            let capLettersCount = parseInt(document.getElementById("capLetters").value);
-            let smallLettersCount = parseInt(document.getElementById("smallLetters").value);
-            let numbersCount = parseInt(document.getElementById("numbers").value);
-            let symbolsCount = parseInt(document.getElementById("symbols").value);
+            let capitalCount = document.getElementById("capital").value;
+            let smallCount = document.getElementById("small").value;
+            let numCount = document.getElementById("numbers").value;
+            let symbolCount = document.getElementById("symbols").value;
 
-            let passwordArray = [];
+            let password = "";
 
-            function getRandomChars(chars, count) {
-                for (let i = 0; i < count; i++) {
-                    passwordArray.push(chars.charAt(Math.floor(Math.random() * chars.length)));
-                }
-            }
+            for (let i = 0; i < capitalCount; i++) password += capitals[Math.floor(Math.random() * capitals.length)];
+            for (let i = 0; i < smallCount; i++) password += smalls[Math.floor(Math.random() * smalls.length)];
+            for (let i = 0; i < numCount; i++) password += nums[Math.floor(Math.random() * nums.length)];
+            for (let i = 0; i < symbolCount; i++) password += symbols[Math.floor(Math.random() * symbols.length)];
 
-            getRandomChars(capLetters, capLettersCount);
-            getRandomChars(smallLetters, smallLettersCount);
-            getRandomChars(numbers, numbersCount);
-            getRandomChars(symbols, symbolsCount);
-
-            passwordArray.sort(() => Math.random() - 0.5); // Shuffle password
-
-            document.getElementById("password").value = passwordArray.join("");
+            password = password.split('').sort(() => Math.random() - 0.5).join('');
+            document.getElementById("password").value = password;
         }
     </script>
-
 </body>
 </html>
